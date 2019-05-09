@@ -5,11 +5,14 @@ import './styles.css'
 export default function Card({
     handleClick,
     id,
+    type,
     flipped,
+    solved,
     back,
     front,
     height,
-    width
+    width, 
+    disabled
 }) {
     return <div
         className={`flip-container ${flipped ? 'flipped' : ''}`}
@@ -17,7 +20,7 @@ export default function Card({
             height,
             width
         }}
-        onClick={() => handleClick(id)}>
+        onClick={() => disabled ? null : handleClick(id)}>
 
         <div className="flipper">
             <img
@@ -26,17 +29,18 @@ export default function Card({
                     width
                 }}
                 className={flipped ? 'front' : 'back'}
-                src={flipped ? front : back} />
+                src={flipped || solved ? `/img/${type}.png` : `/img/back.png`} />
         </div>
     </div>
 }
 
 Card.propTypes = {
-    handleClick: PropTypes.bool.isRequired,
-    id:PropTypes.number.isRequired,
+    handleClick: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired,
     flipped: PropTypes.bool.isRequired,
-    back: PropTypes.string.isRequired,
-    front: PropTypes.string.isRequired,
+    solved: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
     height: PropTypes.number.isRequired,
-    width:PropTypes.number.isRequired
+    width: PropTypes.number.isRequired,
+    disabled: PropTypes.bool.isRequired
 }
